@@ -18,16 +18,16 @@ const checkSchemeId = async (req, res, next) => {
   }
 }
 
-/*
-  If `scheme_name` is missing, empty string or not a string:
-
-  status 400
-  {
-    "message": "invalid scheme_name"
-  }
-*/
 const validateScheme = (req, res, next) => {
-
+  const { scheme_name } = req.body
+  if (!scheme_name || !scheme_name.trim()) {
+    next({
+      status: 400,
+      message: 'invalid scheme_name'
+    })
+  } else {
+    next()
+  }
 }
 
 /*
