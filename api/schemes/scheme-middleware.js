@@ -1,13 +1,21 @@
-/*
-  If `scheme_id` does not exist in the database:
+const db = require('../../data/db-config.js');
 
-  status 404
-  {
-    "message": "scheme with scheme_id <actual id> not found"
+const checkSchemeId = async (req, res, next) => {
+  try {
+    const exists = await db('schemes')
+      .where('scheme_id', req.params.scheme_id)
+      .first()
+      if (!exists) {
+        next({
+          status: 404,
+          message: `scheme with scheme_id ${req.params.scheme_id} not found`
+        })
+      } else {
+        next()
+      }
+  } catch (err) {
+    next(err)
   }
-*/
-const checkSchemeId = (req, res, next) => {
-
 }
 
 /*
